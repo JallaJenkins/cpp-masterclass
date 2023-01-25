@@ -1,13 +1,17 @@
 #include <iostream>
 
+size_t dog_count{0};  // Global scope
+
 unsigned int add_student(){
   static unsigned int student_count{0};  // Scope is within function, lifetime lasts for entire program run
   student_count++;
+  ++dog_count;
   return student_count;
 }
 
 void do_something(){
-  --student_count;
+  // --student_count;  // Compiler error
+  ++dog_count;
 }
 
 int main(){
