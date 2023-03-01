@@ -24,7 +24,7 @@
           "ignoreFailures": true
         }
       ],
-      "preLaunchTask": "Build with GCC 12.2.0"
+      "preLaunchTask": "Build with GCC 11.2.0"
     },
     {
       "name": "C/C++: cl.exe build and debug active file",
