@@ -18,6 +18,13 @@ public:
   Person(const std::string& last_name_param, const std::string& first_name_param);
   Person(const std::string& last_name);
 
+  // Copy constructor
+  // Person(const Person source_p); // BAD - creates infinite recursion of constructor calls as constructor tries to call itself to make argument copy of source_p
+
+  // Memberwise copy constructor
+  Person(const Person& source_p); // GOOD - passing by reference avoids need to make argument copy of source_p
+
+  // Destructor
   ~Person();
 
   // Setters
@@ -34,6 +41,7 @@ public:
   void print_info(){
     std::cout << "Person object at: " << this
               << " [ last_name: " << last_name
+              << ", &last_name: " << &last_name
               << ", first_name: " << first_name
               << ", age: " << *age
               << ", age address: " << age
