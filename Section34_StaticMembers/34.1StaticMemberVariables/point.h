@@ -16,6 +16,7 @@ class Point{
     double length() const; // Calculate distance to origin
     
     size_t get_point_count() const{
+      // ++m_point_count;
       return m_point_count;
     }
 
@@ -28,7 +29,7 @@ class Point{
     double m_x;
     double m_y;
 
-  public:
+  // public:
     static size_t m_point_count;
 };
 #endif

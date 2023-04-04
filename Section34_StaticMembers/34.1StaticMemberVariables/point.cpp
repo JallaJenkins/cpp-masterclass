@@ -1,10 +1,10 @@
 #include "point.h"
 #include <cmath>
 
-Point::Point (double x, double y)
-  : m_x(x), m_y(y)
-{
 
+Point::Point (double x, double y) : m_x(x), m_y(y){
+  std::cout << "Point constructor called\n";
+  ++m_point_count;
 }
 
 // Point Constructor
@@ -24,7 +24,7 @@ Point::Point(const Point& point) : Point(point.m_x, point.m_y){
 
 // Destructor
 Point::~Point(){
-
+  --m_point_count;
 } 
 
 // Calculate distance to origin
