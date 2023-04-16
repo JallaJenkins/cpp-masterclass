@@ -26,10 +26,9 @@ class Point{
 
 
   private:
-    static size_t m_point_count;
+    inline static size_t m_point_count{};
     double m_x;
     double m_y;
 
-  // public:
 };
 #endif
