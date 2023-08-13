@@ -17,9 +17,9 @@ public:
 	Number() = default;
 	Number(int value );
 
-  explicit operator double() const {
-    return static_cast<double>(m_wrapped_int);
-  }
+  // operator double() const {
+  //   return static_cast<double>(m_wrapped_int);
+  // }
 
 /*
   Number operator+(const Number& right) const {
