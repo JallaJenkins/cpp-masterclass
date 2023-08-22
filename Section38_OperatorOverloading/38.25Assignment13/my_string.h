@@ -72,6 +72,38 @@ class string{
 		this->insert(m_size, s, count);
 		return *this;
 	}
+
+	string& erase(size_t begin, size_t end) {
+		if(begin >= end || end > m_size) {
+			std::cout << "Cannot perform erase: improper indices\n";
+			return *this;
+		}
+
+		size_t count = end - begin;
+		char* new_data = new char [m_size - count];
+
+		for(size_t i{}; i < begin; ++i) {
+			new_data[i] = m_data[i];
+		}
+
+		for(size_t i{end}; i < m_size; ++i){
+			std::cout << "Adding " << m_data[i] << '\n';
+			new_data[i - begin - 1] = m_data[i];
+		}
+
+		new_data[m_size - count] = '\0';
+		m_size -= count;
+
+		m_data = new char [m_size];
+		std::strcpy(m_data,new_data);
+		delete[] new_data;
+
+		return *this;
+	}
+
+	int compare(const string& compare_string) const {
+		return std::strcmp(this->m_data, compare_string.m_data);
+	}
 	
 	const char* c_str() const{
 		return m_data;
