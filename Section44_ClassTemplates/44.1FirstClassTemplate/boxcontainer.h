@@ -8,7 +8,7 @@ class BoxContainer
 {
 
 
-  static const size_t DEFAULT_CAPACITY = 30;
+  static const size_t DEFAULT_CAPACITY = 5;
   static const size_t EXPAND_STEPS = 5;
 
 public:
@@ -16,20 +16,17 @@ public:
   BoxContainer(const BoxContainer& source);
   ~BoxContainer();
 
-  // StreamInsertable Interface
-  virtual void stream_insert(std::ostream& out) const override;
-
   // Helper getter methods
   size_t size() const {return m_size;}
   size_t capacity() const {return m_capacity;}
   T get_item(size_t index) const{return m_items[index];}
 
   // Method to add items to container
-  void add(const value_type& item);
+  void add(const T& item);
 
   // Remove items
-  bool remove_item(const value_type& item);
-  size_t remove_all(const value_type& item);
+  bool remove_item(const T& item);
+  size_t remove_all(const T& item);
 
   // In-class operators
   void operator+=(const BoxContainer& operand);
@@ -67,7 +64,7 @@ inline std::ostream& operator<<(std::ostream& out, const BoxContainer<T>& operan
 template<typename T>
 BoxContainer<T>::BoxContainer(size_t capacity)
 {
-  m_items = new value_type[capacity];
+  m_items = new T[capacity];
   m_capacity = capacity;
   m_size = 0;
 }
@@ -76,7 +73,7 @@ template<typename T>
 BoxContainer<T>::BoxContainer(const BoxContainer& source)
 {
   // Set up new box
-  m_items = new value_type[source.m_capacity];
+  m_items = new T[source.m_capacity];
   m_capacity = source.m_capacity;
   m_size = source.m_size;
 
@@ -93,20 +90,6 @@ BoxContainer<T>::~BoxContainer()
 }
 
 template<typename T>
-void BoxContainer<T>::stream_insert(std::ostream& out) const {
-
-  out << "BoxContainer: [ size: " << m_size
-      << ", capacity: " << m_capacity
-      << ", items: ";
-
-      for(size_t i{}; i < m_size; ++i){
-        out << m_items[i] << " ";
-      }
-
-      std::cout << "]";
-}
-
-template<typename T>
 void BoxContainer<T>::expand(size_t new_capacity){
   if(new_capacity <= m_capacity){
     return; // No need to expand capacity
@@ -115,7 +98,7 @@ void BoxContainer<T>::expand(size_t new_capacity){
   std::cout << "Expanding to: " << new_capacity << '\n';
 
   // Allocate new, larger array
-  value_type* new_items_container = new value_type[new_capacity];
+  T* new_items_container = new T[new_capacity];
 
   // Copy the items over
   for(size_t i{}; i < m_size; ++i){
@@ -134,14 +117,15 @@ void BoxContainer<T>::expand(size_t new_capacity){
 }
 
 template<typename T>
-void BoxContainer<T>::add(const value_type& item){
+void BoxContainer<T>::add(const T& item){
   if(m_size == m_capacity)
     expand(m_size + EXPAND_STEPS);
   m_items[m_size] = item;
   ++m_size;
 }
 
-bool BoxContainer::remove_item(const value_type& item){
+template<typename T>
+bool BoxContainer<T>::remove_item(const T& item){
   size_t index{m_capacity + 999};
 
   for(size_t i{}; i < m_size; ++i){
@@ -160,7 +144,8 @@ bool BoxContainer::remove_item(const value_type& item){
   return true;
 }
 
-size_t BoxContainer::remove_all(const value_type& item){
+template<typename T>
+size_t BoxContainer<T>::remove_all(const T& item){
   size_t remove_count{};
   while(this->remove_item(item)){
     remove_count++;
@@ -169,7 +154,8 @@ size_t BoxContainer::remove_all(const value_type& item){
   return remove_count;
 }
 
-void BoxContainer::operator+=(const BoxContainer& operand){
+template<typename T>
+void BoxContainer<T>::operator+=(const BoxContainer& operand){
   // Make sure the current box has enough capacity
   if((m_size + operand.size()) > m_capacity){
     expand(m_size + operand.size());
@@ -183,7 +169,9 @@ void BoxContainer::operator+=(const BoxContainer& operand){
   m_size += operand.size();
 
 }
-void BoxContainer::operator=(const BoxContainer& source){
+
+template<typename T>
+void BoxContainer<T>::operator=(const BoxContainer<T>& source){
 
   // Check for self-assignment
   if (this == &source){
@@ -195,7 +183,7 @@ void BoxContainer::operator=(const BoxContainer& source){
     // value_type* new_items = new value_type[source.capacity()];
     delete[] m_items;
     // m_items = new_items;
-    m_items = new value_type[source.capacity()];
+    m_items = new T[source.capacity()];
     m_capacity = source.m_capacity;
   }
 
@@ -206,8 +194,9 @@ void BoxContainer::operator=(const BoxContainer& source){
   m_size = source.size();
 }
 
-BoxContainer operator+(const BoxContainer& left, const BoxContainer& right){
-  BoxContainer result(left.size() + right.size());
+template<typename T>
+BoxContainer<T> operator+(const BoxContainer<T>& left, const BoxContainer<T>& right){
+  BoxContainer<T> result(left.size() + right.size());
   result += left;
   result += right;
   return result;
