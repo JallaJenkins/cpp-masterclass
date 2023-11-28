@@ -1,13 +1,79 @@
-#include "boxcontainer.h"
+#ifndef BOX_CONTAINER_H
+#define BOX_CONTAINER_H
 
-BoxContainer::BoxContainer(size_t capacity)
+#include <iostream>
+
+template <typename T>
+class BoxContainer
+{
+
+
+  static const size_t DEFAULT_CAPACITY = 30;
+  static const size_t EXPAND_STEPS = 5;
+
+public:
+  BoxContainer(size_t capactiy = DEFAULT_CAPACITY);
+  BoxContainer(const BoxContainer& source);
+  ~BoxContainer();
+
+  // StreamInsertable Interface
+  virtual void stream_insert(std::ostream& out) const override;
+
+  // Helper getter methods
+  size_t size() const {return m_size;}
+  size_t capacity() const {return m_capacity;}
+  T get_item(size_t index) const{return m_items[index];}
+
+  // Method to add items to container
+  void add(const value_type& item);
+
+  // Remove items
+  bool remove_item(const value_type& item);
+  size_t remove_all(const value_type& item);
+
+  // In-class operators
+  void operator+=(const BoxContainer& operand);
+  void operator=(const BoxContainer& source);
+
+private:
+  void expand(size_t new_capacity);
+
+private:
+  T* m_items;
+  size_t m_capacity;
+  size_t m_size;
+
+};
+
+// Free operartors
+template<typename T>
+BoxContainer<T> operator+(const BoxContainer<T>& left, const BoxContainer<T>& right);
+
+template < typename T>
+inline std::ostream& operator<<(std::ostream& out, const BoxContainer<T>& operand){
+    
+	out << "BoxContainer : [ size :  " << operand.size()
+		<< ", capacity : " << operand.capacity() << ", items : " ;
+			
+	for(size_t i{0}; i < operand.size(); ++i){
+		out << operand.get_item(i) << " " ;
+	}
+	out << "]";
+    
+    return out;
+}
+
+// Method definitions moved to header file
+template<typename T>
+BoxContainer<T>::BoxContainer(size_t capacity)
 {
   m_items = new value_type[capacity];
   m_capacity = capacity;
   m_size = 0;
 }
 
-BoxContainer::BoxContainer(const BoxContainer& source)
+template<typename T>
+BoxContainer<T>::BoxContainer(const BoxContainer& source)
 {
   // Set up new box
   m_items = new value_type[source.m_capacity];
@@ -20,12 +86,14 @@ BoxContainer::BoxContainer(const BoxContainer& source)
   }
 }
 
-BoxContainer::~BoxContainer()
+template<typename T>
+BoxContainer<T>::~BoxContainer()
 {
   delete[] m_items;
 }
 
-void BoxContainer::stream_insert(std::ostream& out) const {
+template<typename T>
+void BoxContainer<T>::stream_insert(std::ostream& out) const {
 
   out << "BoxContainer: [ size: " << m_size
       << ", capacity: " << m_capacity
@@ -38,7 +106,8 @@ void BoxContainer::stream_insert(std::ostream& out) const {
       std::cout << "]";
 }
 
-void BoxContainer::expand(size_t new_capacity){
+template<typename T>
+void BoxContainer<T>::expand(size_t new_capacity){
   if(new_capacity <= m_capacity){
     return; // No need to expand capacity
   }
@@ -64,7 +133,8 @@ void BoxContainer::expand(size_t new_capacity){
 
 }
 
-void BoxContainer::add(const value_type& item){
+template<typename T>
+void BoxContainer<T>::add(const value_type& item){
   if(m_size == m_capacity)
     expand(m_size + EXPAND_STEPS);
   m_items[m_size] = item;
@@ -142,3 +212,5 @@ BoxContainer operator+(const BoxContainer& left, const BoxContainer& right){
   result += right;
   return result;
 }
+
+#endif  // BOX_CONTAINER_H
