@@ -7,15 +7,7 @@
 template <typename T>
 class BoxContainer
 {
-
-  // The problem:
-  // friend std::ostream& operator<< (std::ostream&, const BoxContainer<T>&);
-
-  // Either of these solutions will need the friend function template predeclared
-  // friend std::ostream& operator<< <>(std::ostream&, const BoxContainer<T>&);
-  // friend std::ostream& operator<<<T> (std::ostream&, const BoxContainer<T>&);
-
- 
+  static_assert(std::is_default_constructible_v<T>, "Type stored in container must have a default constructor");
 
   static const size_t DEFAULT_CAPACITY = 5;
   static const size_t EXPAND_STEPS = 5;
