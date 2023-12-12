@@ -14,7 +14,7 @@ class BoxContainer
 
 public:
   BoxContainer(size_t capactiy = DEFAULT_CAPACITY);
-  BoxContainer(const BoxContainer& source);
+  BoxContainer(const BoxContainer& source) requires std::copyable<T>;
   ~BoxContainer();
 
   // friend function defined within class termplate definition
@@ -83,7 +83,7 @@ BoxContainer<T>::BoxContainer(size_t capacity)
 }
 
 template <typename T> requires std::is_default_constructible_v<T>
-BoxContainer<T>::BoxContainer(const BoxContainer& source)
+BoxContainer<T>::BoxContainer(const BoxContainer& source) requires std::copyable<T>
 {
   // Set up new box
   m_items = new T[source.m_capacity];

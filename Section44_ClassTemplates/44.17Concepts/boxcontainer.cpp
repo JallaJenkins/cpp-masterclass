@@ -1,7 +1,7 @@
 #include "boxcontainer.h"
 #include <cstring>
 
-template <> inline requires std::is_default_constructible_v<T>
+template <> inline 
 const char* BoxContainer<const char*>::get_max() const {
   std::cout << "Using specialized get_max for const char*\n";
   size_t max_index = 0;

@@ -1,12 +1,12 @@
 #include "boxcontainer.h"
 
 #include <iostream>
-#include <type_traits>
+#include <concepts>
 
 
 template<typename T>
+requires std::is_arithmetic_v<T>
 class Point{
-  static_assert(std::is_arithmetic_v<T>, "Coordinates of Point can only be numbers");
 
 public:
   Point() = default;
