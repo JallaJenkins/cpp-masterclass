@@ -11,7 +11,7 @@ class BoxContainer
 	static const size_t EXPAND_STEPS = 5;
 public:
 	BoxContainer(size_t capacity = DEFAULT_CAPACITY);
-	// BoxContainer(const BoxContainer<T>& source) = delete;//Copy constructor
+	BoxContainer(const BoxContainer<T>& source) = delete;//Copy constructor
 	BoxContainer(BoxContainer<T>&& source);//Move constructor
 	~BoxContainer();
 
