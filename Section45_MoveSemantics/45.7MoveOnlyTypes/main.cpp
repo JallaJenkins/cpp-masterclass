@@ -19,7 +19,7 @@ int main(){
 
   std::cout << "--------------------------\n";
 
-  BoxContainer<int> box2(box1); // Compiler error; copy constructor deleted
+  // BoxContainer<int> box2(box1); // Compiler error; copy constructor deleted
 
   std::cout << "box1: " << box1 << '\n';
   std::cout << "box2: " << box2 << '\n';
