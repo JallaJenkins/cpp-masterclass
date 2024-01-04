@@ -28,7 +28,7 @@ BoxContainer<std::string>& modify(BoxContainer<std::string>& sentence,
   return sentence;
 }
 
-using str_comparator = bool(*)(const std::string& str1, const std::string& str2);
+using str_comparator = bool(*)(const std::string&, const std::string&);
 
 std::string get_best(const BoxContainer<std::string>& sentence,
                     str_comparator comparator)
