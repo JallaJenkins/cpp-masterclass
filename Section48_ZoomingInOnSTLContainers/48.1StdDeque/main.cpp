@@ -130,6 +130,94 @@ int main(){
   // Insert
   std::cout << '\n';
   std::cout << "insert:\n";
+  auto it_pos = numbers.begin() + 2;
+
+  print_collection(numbers);
+
+  numbers.insert(it_pos, 300);
+  print_collection(numbers);
+
+  numbers.insert(it_pos, 400);  // it_pos moves to keep pointing at same element
+  print_collection(numbers);    // elements are added to the left of element at it_pos
+
+  // Emplace
+  std::cout << '\n';
+  std::cout << "emplace:\n";
+  auto it_item_pos = numbers.begin() + 2;
+  numbers.emplace(it_item_pos, 45);   // The parameters following the iterator are 
+                                      // passed to a constructor of the type stored in the vector
+
+  print_collection(numbers);
+
+  // Erase
+  std::cout << '\n';
+  std::cout << "erase:\n";
+  numbers.erase(numbers.begin() + 4);
+  print_collection(numbers);
+  numbers.erase(numbers.begin() + 1, numbers.begin() + 4);
+  print_collection(numbers);
+
+  // Emplace_back
+  std::cout << '\n';
+  std::cout << "emplace_back:\n";
+  numbers.emplace_back(10);
+  numbers.emplace_back(11);
+  numbers.emplace_back(12);
+  print_collection(numbers);
+
+  // Pop back
+  std::cout << '\n';
+  std::cout << "pop_back:\n";
+  numbers.pop_back();
+  print_collection(numbers);
+  numbers.pop_back();
+  print_collection(numbers);
+  numbers.pop_back();
+  print_collection(numbers);
+
+  //Resize
+
+  std::cout << '\n';
+  std::cout << "resize:\n";
+  std::cout << "resize(Before):\n";
+  print_collection(numbers);
+  std::cout << "numbers size: " << numbers.size() << '\n';
+
+  numbers.resize(30);
+  std::cout << "after resize:\n";
+  print_collection(numbers);
+  std::cout << "numbers size: " << numbers.size() << '\n';
+
+  // Can reize down
+  std::cout << "resize down:\n";
+  numbers.resize(10);
+  print_collection(numbers);
+  std::cout << "numbers size: " << numbers.size() << '\n';
+
+  // Swap
+
+  std::cout << std::endl;
+  std::cout << "swap : " << std::endl;
+  
+  std::deque<Item> other_items = {Item(100),Item(200),Item(300)};
+  
+  std::cout << "items : " ;
+  print_collection(items);
+  
+  std::cout << "other_items : " ;
+  print_collection(other_items);
+  
+  //items.swap(other_items);
+  other_items.swap(items);
+  
+  std::cout << "after swap : " << std::endl;
+  
+  std::cout << "items : " ;
+  print_collection(items);
+  
+  std::cout << "other_items : " ;
+  print_collection(other_items); 
+  
 
   return 0;
 }
