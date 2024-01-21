@@ -133,12 +133,22 @@ int main(){
   auto it_pos = numbers.begin() + 2;
 
   print_collection(numbers);
-
+  std::cout << "*it_pos before inserts: " << *it_pos << '\n';
   numbers.insert(it_pos, 300);
   print_collection(numbers);
+  std::cout << "*it_pos after first insert: " << *it_pos << '\n';
 
-  numbers.insert(it_pos, 400);  // it_pos moves to keep pointing at same element
+  numbers.insert(it_pos, 400);  // it_pos moves after every other insert - ??
   print_collection(numbers);    // elements are added to the left of element at it_pos
+  std::cout << "*it_pos after second insert: " << *it_pos << '\n';
+
+  numbers.insert(it_pos, 500);  
+  print_collection(numbers);    
+  std::cout << "*it_pos after third insert: " << *it_pos << '\n';
+
+  numbers.insert(it_pos, 600);  
+  print_collection(numbers);    
+  std::cout << "*it_pos after fourth insert: " << *it_pos << '\n';
 
   // Emplace
   std::cout << '\n';
