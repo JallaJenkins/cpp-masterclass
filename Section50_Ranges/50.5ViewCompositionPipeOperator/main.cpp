@@ -46,8 +46,28 @@ int main(){
   auto names_view = classroom | std::views::keys;
   // std::cout << "names: ", print(names_view);
   std::ranges::copy(names_view, std::ostream_iterator<std::string>(std::cout, " "));
-  return 0;
 
   // Print out the ages:
+  std::cout << '\n';
+  auto ages_view = std::views::values(classroom);
+  std::cout << "ages: ";
+  std::ranges::copy(ages_view, std::ostream_iterator<unsigned int>(std::cout, " "));
+
+  // Names in reverse
+  // Won't work with unordered map because it has no reverse iterators
+  std::cout << '\n';
+  std::cout << "names in reverse: ";
+  std::ranges::copy(std::views::keys(classroom) | std::views::reverse,
+    std::ostream_iterator<std::string>(std::cout, " "));
+
+  // Pick names coming before the letter "M"
+  std::cout << '\n';
+  auto before_M = [](const std::string& name){
+    return static_cast<unsigned char>(name[0]) < static_cast<unsigned char>('M');
+  };
+  std::cout << "Names before M: ";
+  std::ranges::copy(std::views::keys(classroom) | std::views::filter(before_M),
+    std::ostream_iterator<std::string>(std::cout, " "));
   
+  return 0;
 }
