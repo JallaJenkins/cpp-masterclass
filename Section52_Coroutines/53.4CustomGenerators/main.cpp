@@ -70,6 +70,8 @@ generator<int> range(int first, int last){
 int main(){
 
   std::cout << std::boolalpha;
+
+  /*
   auto task1 = generate_numbers();
 
   std::cout << "task1: " << task1() << '\n' ;
@@ -80,6 +82,19 @@ int main(){
   std::cout << "-----------\n";
   task1();
   std::cout << "coro done: " << task1.m_handle.done() << '\n';
+  */
+
+  /*
+  auto task2 = infinite_number_stream(100);
+  for (size_t i{}; i < 100; ++i) {
+    std::cout << "value: " << task2() << '\n';
+  }
+  */
+
+  auto task3 = range(10, 20);
+  for(size_t i{}; i < 11; ++i) {
+    std::cout << "value: " << task3() << '\n';
+  }
 
 
   std::cout << "Main done!\n";
